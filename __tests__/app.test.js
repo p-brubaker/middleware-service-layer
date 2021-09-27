@@ -6,21 +6,31 @@ import app from '../lib/app.js';
 describe('middleware service layer', () => {
     beforeEach(async () => {
         await setup(pool);
-        const comments = await Promise.all([
-            { id: '1', comment: 'puppies are great!', toxic: false },
-            { id: '2', comment: 'your a poophead!', toxic: true },
-        ]);
-        await comments.forEach((comment) => {
-            request(app).post('api/v1/comments').send(comment);
-        });
+        return await Promise.all(
+            [
+                { comment: 'puppies are great!' },
+                { comment: 'your a poophead!' },
+            ].map((comment) => {
+                return request(app).post('/api/v1/comments').send(comment);
+            })
+        );
     });
 
     it('should retrieve a comment from the database', async () => {
-        const res = await request(app).get('api/v1/comments/1');
-        expect(res).toEqual({
+        const res = await request(app).get('/api/v1/comments/1');
+        expect(res.body).toEqual({
             id: '1',
             comment: 'puppies are great!',
             toxic: false,
+        });
+    });
+
+    it('should show a positive match for toxicity for a mean comment', async () => {
+        const res = await request(app).get('/api/v1/comments/2');
+        expect(res.body).toEqual({
+            id: '2',
+            comment: 'your a poophead!',
+            toxic: true,
         });
     });
 
