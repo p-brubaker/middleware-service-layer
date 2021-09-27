@@ -53,6 +53,14 @@ describe('middleware service layer', () => {
         ]);
     });
 
+    it('should delete a comment by id', async () => {
+        await request(app).delete('/api/v1/comments/2');
+        const res = await request(app).get('/api/v1/comments');
+        expect(res.body).toEqual([
+            { id: '1', comment: 'puppies are great!', toxic: false },
+        ]);
+    });
+
     afterAll(() => {
         pool.end();
     });
