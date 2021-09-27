@@ -59,7 +59,7 @@ describe('middleware service layer', () => {
         expect(res.body).toEqual([
             { id: '1', comment: 'puppies are great!', toxic: false },
         ]);
-    });
+    }, 10000);
 
     afterAll(() => {
         pool.end();
