@@ -14,7 +14,7 @@ describe('middleware service layer', () => {
                 return request(app).post('/api/v1/comments').send(comment);
             })
         );
-    });
+    }, 10000);
 
     it('should retrieve a comment from the database', async () => {
         const res = await request(app).get('/api/v1/comments/1');
@@ -23,7 +23,7 @@ describe('middleware service layer', () => {
             comment: 'puppies are great!',
             toxic: false,
         });
-    });
+    }, 10000);
 
     it('should show a positive match for toxicity for a mean comment', async () => {
         const res = await request(app).get('/api/v1/comments/2');
@@ -32,18 +32,18 @@ describe('middleware service layer', () => {
             comment: 'your a poophead!',
             toxic: true,
         });
-    });
+    }, 10000);
 
     it('should patch a comment in the database and return the new comment', async () => {
         const res = await request(app).patch('/api/v1/comments/2').send({
-            comment: 'Im sorry, your not rly a poophead',
+            comment: 'Im sorry I was mean',
         });
         expect(res.body).toEqual({
             id: '2',
-            comment: 'Im sorry I called you a poophead',
+            comment: 'Im sorry I was mean',
             toxic: false,
         });
-    });
+    }, 10000);
 
     afterAll(() => {
         pool.end();

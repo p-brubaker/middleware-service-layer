@@ -10,8 +10,7 @@
         "start": "node -r dotenv/config server.js",
         "start:watch": "nodemon -r dotenv/config server.js",
         "setup-db": "node -r dotenv/config setup-db.js",
-        "setup-heroku": "heroku run npm run setup-db",
-        "testTimeout": 20000
+        "setup-heroku": "heroku run npm run setup-db"
     },
     "jest": {
         "testEnvironment": "node"
