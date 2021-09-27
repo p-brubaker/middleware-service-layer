@@ -45,6 +45,14 @@ describe('middleware service layer', () => {
         });
     }, 10000);
 
+    it('should get all the comments', async () => {
+        const res = await request(app).get('/api/v1/comments');
+        expect(res.body).toEqual([
+            { id: '1', comment: 'puppies are great!', toxic: false },
+            { id: '2', comment: 'your a poophead!', toxic: true },
+        ]);
+    });
+
     afterAll(() => {
         pool.end();
     });
