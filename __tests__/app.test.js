@@ -6,14 +6,16 @@ import app from '../lib/app.js';
 describe('middleware service layer', () => {
     beforeEach(async () => {
         await setup(pool);
-        return await Promise.all(
-            [
-                { comment: 'puppies are great!' },
-                { comment: 'your a poophead!' },
-            ].map((comment) => {
-                return request(app).post('/api/v1/comments').send(comment);
+        return await request(app)
+            .post('/api/v1/comments')
+            .send({
+                comment: 'puppies are great!',
             })
-        );
+            .then(async () => {
+                return await request(app).post('/api/v1/comments').send({
+                    comment: 'your a poophead!',
+                });
+            });
     }, 10000);
 
     it('should retrieve a comment from the database', async () => {
