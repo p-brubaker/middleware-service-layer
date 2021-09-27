@@ -34,6 +34,17 @@ describe('middleware service layer', () => {
         });
     });
 
+    it('should patch a comment in the database and return the new comment', async () => {
+        const res = await request(app).patch('/api/v1/comments/2').send({
+            comment: 'Im sorry, your not rly a poophead',
+        });
+        expect(res.body).toEqual({
+            id: '2',
+            comment: 'Im sorry I called you a poophead',
+            toxic: false,
+        });
+    });
+
     afterAll(() => {
         pool.end();
     });
